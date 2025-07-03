@@ -60,13 +60,13 @@ export function PocketCard({ pocket }: PocketCardProps) {
   return (
     <>
       <Card className="flex flex-col h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
-        <CardHeader className="flex flex-row items-start justify-between p-6 pb-2">
+        <CardHeader className="flex flex-row items-center justify-between p-6 pb-2">
             <Link href={`/pocket/${pocket.id}`} className="flex-1 min-w-0">
                 <CardTitle className="text-lg font-medium truncate">{pocket.name}</CardTitle>
             </Link>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 -mt-2 -mr-2">
+                <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2">
                     <MoreVertical className="h-4 w-4" />
                     <span className="sr-only">More options</span>
                 </Button>
