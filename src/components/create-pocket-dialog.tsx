@@ -121,7 +121,7 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="$">$ (Local)</SelectItem>
+                        <SelectItem value="$">$</SelectItem>
                         <SelectItem value="USD">USD</SelectItem>
                       </SelectContent>
                     </Select>
