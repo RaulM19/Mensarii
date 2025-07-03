@@ -43,11 +43,11 @@ export function PocketTransactionsList({ transactions }: PocketTransactionsListP
                   </TableCell>
                   <TableCell>{t.description}</TableCell>
                   <TableCell>
-                    <Badge variant={t.type === 'deposit' ? 'default' : 'destructive'} className={t.type === 'deposit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                    <Badge variant={t.type === 'deposit' ? 'default' : 'destructive'}>
                       {t.type}
                     </Badge>
                   </TableCell>
-                  <TableCell className={`text-right font-semibold ${t.type === 'deposit' ? 'text-green-600' : 'text-red-600'}`}>
+                  <TableCell className={`text-right font-semibold ${t.type === 'deposit' ? 'text-primary' : 'text-destructive'}`}>
                     {t.type === 'deposit' ? '+' : '-'} ${t.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </TableCell>
                 </TableRow>

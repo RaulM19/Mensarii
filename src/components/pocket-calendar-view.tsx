@@ -61,10 +61,10 @@ export function PocketCalendarView({ transactions }: PocketCalendarViewProps) {
                     <p className="text-sm text-muted-foreground">{format(new Date(t.date), 'p')}</p>
                   </div>
                   <div className="text-right">
-                    <p className={`font-semibold ${t.type === 'deposit' ? 'text-green-600' : 'text-red-600'}`}>
+                    <p className={`font-semibold ${t.type === 'deposit' ? 'text-primary' : 'text-destructive'}`}>
                       {t.type === 'deposit' ? '+' : '-'} ${t.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </p>
-                    <Badge variant={t.type === 'deposit' ? 'default' : 'destructive'} className={t.type === 'deposit' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}>
+                    <Badge variant={t.type === 'deposit' ? 'default' : 'destructive'}>
                       {t.type}
                     </Badge>
                   </div>
