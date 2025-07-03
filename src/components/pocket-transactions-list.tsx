@@ -40,7 +40,7 @@ export function PocketTransactionsList({ transactions }: PocketTransactionsListP
               {sortedTransactions.map((t) => (
                 <TableRow key={t.id}>
                   <TableCell className="font-medium">
-                    {format(new Date(t.date), 'MM/dd/yyyy')}
+                    {format(new Date(t.date), 'dd/MM/yyyy')}
                   </TableCell>
                   <TableCell>{t.description}</TableCell>
                   <TableCell>
