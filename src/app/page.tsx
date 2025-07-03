@@ -1,3 +1,56 @@
+"use client"
+
+import * as React from 'react'
+import { Plus } from 'lucide-react'
+
+import { usePockets } from '@/contexts/pockets-context'
+import { Button } from '@/components/ui/button'
+import { PocketCard } from '@/components/pocket-card'
+import { CreatePocketDialog } from '@/components/create-pocket-dialog'
+
 export default function Home() {
-  return <></>;
+  const { pockets } = usePockets()
+  const [isCreateDialogOpen, setCreateDialogOpen] = React.useState(false)
+
+  return (
+    <>
+      <div className="flex flex-col min-h-screen">
+        <header className="sticky top-0 z-10 bg-background/95 backdrop-blur-sm">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex items-center justify-between h-16">
+              <h1 className="text-2xl font-bold text-primary">PocketBalance</h1>
+              <Button onClick={() => setCreateDialogOpen(true)}>
+                <Plus className="mr-2 h-4 w-4" />
+                Create Pocket
+              </Button>
+            </div>
+          </div>
+        </header>
+
+        <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
+          {pockets.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {pockets.map((pocket) => (
+                <PocketCard key={pocket.id} pocket={pocket} />
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center text-center h-full min-h-[50vh] bg-card border border-dashed rounded-lg p-8">
+              <h2 className="text-xl font-semibold text-foreground">No Pockets Yet</h2>
+              <p className="mt-2 text-muted-foreground">Get started by creating your first savings pocket.</p>
+              <Button onClick={() => setCreateDialogOpen(true)} className="mt-4">
+                <Plus className="mr-2 h-4 w-4" />
+                Create Pocket
+              </Button>
+            </div>
+          )}
+        </main>
+
+        <footer className="text-center p-4 text-muted-foreground text-sm">
+          <p>PocketBalance &copy; {new Date().getFullYear()}</p>
+        </footer>
+      </div>
+      <CreatePocketDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} />
+    </>
+  )
 }
