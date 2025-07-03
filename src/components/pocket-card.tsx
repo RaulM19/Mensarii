@@ -59,47 +59,51 @@ export function PocketCard({ pocket }: PocketCardProps) {
 
   return (
     <>
-      <Card className="relative flex flex-col h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <Card className="flex flex-col h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+        <CardHeader className="flex flex-row items-start justify-between p-6 pb-2">
+            <Link href={`/pocket/${pocket.id}`} className="flex-1 min-w-0">
+                <CardTitle className="text-lg font-medium truncate">{pocket.name}</CardTitle>
+            </Link>
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="h-8 w-8 -mt-2 -mr-2">
+                    <MoreVertical className="h-4 w-4" />
+                    <span className="sr-only">More options</span>
+                </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                    <DropdownMenuItem onClick={() => handleTransactionClick('deposit')}>
+                        <Plus className="mr-2 h-4 w-4" />
+                        <span>Add Funds</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleTransactionClick('withdrawal')}>
+                        <Minus className="mr-2 h-4 w-4" />
+                        <span>Withdraw Funds</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => setDeleteDialogOpen(true)} className="text-destructive focus:text-destructive focus:bg-destructive/10">
+                        <Trash2 className="mr-2 h-4 w-4" />
+                        <span>Delete Pocket</span>
+                    </DropdownMenuItem>
+                </DropdownMenuContent>
+            </DropdownMenu>
+        </CardHeader>
         <Link href={`/pocket/${pocket.id}`} className="flex-grow">
-          <CardHeader className="flex flex-row items-center justify-between p-6 pb-2">
-            <CardTitle className="text-lg font-medium">{pocket.name}</CardTitle>
-            <div className="p-2 bg-primary/10 rounded-lg">
-              <Icon className="h-6 w-6 text-primary" />
-            </div>
-          </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold text-primary">
-              ${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+            <div className="flex justify-between items-start">
+                <div>
+                    <div className="text-3xl font-bold text-primary">
+                    ${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    </div>
+                    <CardDescription className="text-xs text-muted-foreground mt-1">
+                    {pocket.transactions.length} transactions
+                    </CardDescription>
+                </div>
+                <div className="p-2 bg-primary/10 rounded-lg">
+                    <Icon className="h-6 w-6 text-primary" />
+                </div>
             </div>
-            <CardDescription className="text-xs text-muted-foreground mt-1">
-              {pocket.transactions.length} transactions
-            </CardDescription>
           </CardContent>
         </Link>
-        <div className="p-4 pt-0 mt-auto">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="absolute top-4 right-4 h-8 w-8">
-                <MoreVertical className="h-4 w-4" />
-                <span className="sr-only">More options</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => handleTransactionClick('deposit')}>
-                <Plus className="mr-2 h-4 w-4" />
-                <span>Add Funds</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => handleTransactionClick('withdrawal')}>
-                <Minus className="mr-2 h-4 w-4" />
-                <span>Withdraw Funds</span>
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => setDeleteDialogOpen(true)} className="text-destructive focus:text-destructive focus:bg-destructive/10">
-                <Trash2 className="mr-2 h-4 w-4" />
-                <span>Delete Pocket</span>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
       </Card>
 
       <TransactionDialog
