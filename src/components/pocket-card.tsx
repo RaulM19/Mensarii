@@ -59,9 +59,9 @@ export function PocketCard({ pocket }: PocketCardProps) {
 
   return (
     <>
-      <Card className="flex flex-col h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <Card className="relative flex flex-col h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
         <Link href={`/pocket/${pocket.id}`} className="flex-grow">
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
+          <CardHeader className="flex flex-row items-center justify-between p-6 pb-2">
             <CardTitle className="text-lg font-medium">{pocket.name}</CardTitle>
             <div className="p-2 bg-primary/10 rounded-lg">
               <Icon className="h-6 w-6 text-primary" />
