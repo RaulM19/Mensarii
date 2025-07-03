@@ -23,9 +23,9 @@ const initialPockets: Pocket[] = [
     name: 'Vacation Fund',
     icon: Gift,
     transactions: [
-      { id: 't1', type: 'deposit', amount: 1500, description: 'Initial deposit', date: new Date(new Date().setDate(new Date().getDate() - 30)).toISOString() },
-      { id: 't2', type: 'deposit', amount: 200, description: 'Paycheck savings', date: new Date(new Date().setDate(new Date().getDate() - 15)).toISOString() },
-      { id: 't3', type: 'withdrawal', amount: 300, description: 'Booked flights', date: new Date(new Date().setDate(new Date().getDate() - 10)).toISOString() },
+      { id: 't1', type: 'deposit', amount: 1500, description: 'Initial deposit', date: '2024-06-15T10:00:00.000Z' },
+      { id: 't2', type: 'deposit', amount: 200, description: 'Paycheck savings', date: '2024-06-30T10:00:00.000Z' },
+      { id: 't3', type: 'withdrawal', amount: 300, description: 'Booked flights', date: '2024-07-05T10:00:00.000Z' },
     ],
   },
   {
@@ -33,9 +33,9 @@ const initialPockets: Pocket[] = [
     name: 'New Car',
     icon: Car,
     transactions: [
-       { id: 't4', type: 'deposit', amount: 5000, description: 'Initial deposit', date: new Date(new Date().setDate(new Date().getDate() - 60)).toISOString() },
-       { id: 't5', type: 'deposit', amount: 500, description: 'Monthly savings', date: new Date(new Date().setDate(new Date().getDate() - 30)).toISOString() },
-       { id: 't6', type: 'deposit', amount: 500, description: 'Monthly savings', date: new Date(new Date().setDate(new Date().getDate() - 2)).toISOString() },
+       { id: 't4', type: 'deposit', amount: 5000, description: 'Initial deposit', date: '2024-05-16T10:00:00.000Z' },
+       { id: 't5', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2024-06-15T10:00:00.000Z' },
+       { id: 't6', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2024-07-13T10:00:00.000Z' },
     ],
   },
   {
@@ -43,7 +43,7 @@ const initialPockets: Pocket[] = [
     name: 'Emergency Fund',
     icon: PiggyBank,
     transactions: [
-      { id: 't7', type: 'deposit', amount: 2000, description: 'Initial deposit', date: new Date(new Date().setDate(new Date().getDate() - 90)).toISOString() },
+      { id: 't7', type: 'deposit', amount: 2000, description: 'Initial deposit', date: '2024-04-16T10:00:00.000Z' },
     ],
   },
   {
@@ -51,7 +51,7 @@ const initialPockets: Pocket[] = [
     name: 'Home Reno',
     icon: Home,
     transactions: [
-       { id: 't8', type: 'deposit', amount: 750, description: 'Side hustle income', date: new Date(new Date().setDate(new Date().getDate() - 20)).toISOString() },
+       { id: 't8', type: 'deposit', amount: 750, description: 'Side hustle income', date: '2024-06-25T10:00:00.000Z' },
     ],
   },
 ];

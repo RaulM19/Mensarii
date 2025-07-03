@@ -1,5 +1,6 @@
 "use client"
 
+import { format } from "date-fns"
 import {
   Table,
   TableBody,
@@ -39,7 +40,7 @@ export function PocketTransactionsList({ transactions }: PocketTransactionsListP
               {sortedTransactions.map((t) => (
                 <TableRow key={t.id}>
                   <TableCell className="font-medium">
-                    {new Date(t.date).toLocaleDateString()}
+                    {format(new Date(t.date), 'MM/dd/yyyy')}
                   </TableCell>
                   <TableCell>{t.description}</TableCell>
                   <TableCell>
