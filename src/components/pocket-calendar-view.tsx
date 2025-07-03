@@ -1,16 +1,21 @@
 "use client"
 
 import * as React from "react"
-import { format, startOfDay } from 'date-fns'
+import { format } from 'date-fns'
 import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import type { Transaction } from "@/lib/types"
+
+interface PocketCalendarViewProps {
+  transactions: Transaction[];
+  currency: '$' | 'USD';
+}
 
 const groupTransactionsByDay = (transactions: Transaction[]) => {
   const grouped = new Map<string, { deposits: number; withdrawals: number }>();
   
   transactions.forEach(t => {
-    const dayKey = startOfDay(new Date(t.date)).toISOString();
+    const dayKey = format(new Date(t.date), 'yyyy-MM-dd');
     const dailyTotals = grouped.get(dayKey) ?? { deposits: 0, withdrawals: 0 };
     
     if (t.type === 'deposit') {
@@ -28,16 +33,13 @@ const groupTransactionsByDay = (transactions: Transaction[]) => {
 export function PocketCalendarView({ transactions, currency }: PocketCalendarViewProps) {
   const transactionsByDay = React.useMemo(() => groupTransactionsByDay(transactions), [transactions]);
 
-  // Custom component to render the content of each calendar day
   const DayContent = ({ date }: { date: Date }) => {
-    const dayKey = startOfDay(date).toISOString();
+    const dayKey = format(date, 'yyyy-MM-dd');
     const dailyData = transactionsByDay.get(dayKey);
 
     return (
       <div className="flex flex-col h-full items-start justify-start p-1.5 text-left">
-        {/* Day number */}
         <div className="font-medium">{format(date, 'd')}</div>
-        {/* Transaction data */}
         {dailyData && (
           <div className="flex flex-col items-start mt-1 text-xs w-full space-y-1 overflow-hidden">
             {dailyData.deposits > 0 && (
@@ -55,8 +57,6 @@ export function PocketCalendarView({ transactions, currency }: PocketCalendarVie
       </div>
     );
   }
-
-  const transactionDates = Array.from(transactionsByDay.keys()).map(isoString => new Date(isoString));
 
   return (
     <Card>
@@ -85,7 +85,10 @@ export function PocketCalendarView({ transactions, currency }: PocketCalendarVie
             DayContent
           }}
           modifiers={{
-            hasTransaction: transactionDates,
+            hasTransaction: (date: Date) => {
+              const dayKey = format(date, 'yyyy-MM-dd');
+              return transactionsByDay.has(dayKey);
+            }
           }}
           modifiersClassNames={{
             hasTransaction: 'border-primary border-2'
