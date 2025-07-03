@@ -14,10 +14,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Transaction } from "@/lib/types"
 
 interface PocketTransactionsListProps {
-  transactions: Transaction[]
+  transactions: Transaction[];
+  currency: '$' | 'USD';
 }
 
-export function PocketTransactionsList({ transactions }: PocketTransactionsListProps) {
+export function PocketTransactionsList({ transactions, currency }: PocketTransactionsListProps) {
   const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   return (
@@ -40,7 +41,7 @@ export function PocketTransactionsList({ transactions }: PocketTransactionsListP
               {sortedTransactions.map((t) => (
                 <TableRow key={t.id}>
                   <TableCell className="font-medium">
-                    {format(new Date(t.date), 'dd/MM/yyyy')}
+                    {format(new Date(t.date), 'd/M/yyyy')}
                   </TableCell>
                   <TableCell>{t.description}</TableCell>
                   <TableCell>
@@ -49,7 +50,7 @@ export function PocketTransactionsList({ transactions }: PocketTransactionsListP
                     </Badge>
                   </TableCell>
                   <TableCell className={`text-right font-semibold ${t.type === 'deposit' ? 'text-primary' : 'text-destructive'}`}>
-                    {t.type === 'deposit' ? '+' : '-'} ${t.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {t.type === 'deposit' ? '+' : '-'} {currency}{t.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                   </TableCell>
                 </TableRow>
               ))}

@@ -56,7 +56,7 @@ export default function PocketDetailPage() {
                 <h1 className="text-3xl font-bold">{pocket.name}</h1>
                 <p className="text-muted-foreground">Current Balance</p>
                 <p className="text-4xl font-bold text-primary">
-                  ${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {pocket.currency}{balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                 </p>
               </div>
             </div>
@@ -81,13 +81,13 @@ export default function PocketDetailPage() {
               <TabsTrigger value="calendar">Calendar</TabsTrigger>
             </TabsList>
             <TabsContent value="list" className="mt-4">
-              <PocketTransactionsList transactions={pocket.transactions} />
+              <PocketTransactionsList transactions={pocket.transactions} currency={pocket.currency} />
             </TabsContent>
             <TabsContent value="chart" className="mt-4">
-               <PocketBalanceChart transactions={pocket.transactions} />
+               <PocketBalanceChart transactions={pocket.transactions} currency={pocket.currency} />
             </TabsContent>
             <TabsContent value="calendar" className="mt-4">
-              <PocketCalendarView transactions={pocket.transactions} />
+              <PocketCalendarView transactions={pocket.transactions} currency={pocket.currency} />
             </TabsContent>
           </Tabs>
         </main>

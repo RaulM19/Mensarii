@@ -66,7 +66,7 @@ export function PocketCard({ pocket }: PocketCardProps) {
             </Link>
             <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 -mr-2">
+                <Button variant="ghost" size="icon" className="h-8 w-8 flex-shrink-0">
                     <MoreVertical className="h-4 w-4" />
                     <span className="sr-only">More options</span>
                 </Button>
@@ -92,7 +92,7 @@ export function PocketCard({ pocket }: PocketCardProps) {
             <div className="flex justify-between items-start">
                 <div>
                     <div className="text-3xl font-bold text-primary">
-                    ${balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {pocket.currency}{balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
                     </div>
                     <CardDescription className="text-xs text-muted-foreground mt-1">
                     {pocket.transactions.length} transactions

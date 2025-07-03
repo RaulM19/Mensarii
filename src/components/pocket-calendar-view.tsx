@@ -8,10 +8,11 @@ import type { Transaction } from "@/lib/types"
 import { Badge } from "./ui/badge"
 
 interface PocketCalendarViewProps {
-  transactions: Transaction[]
+  transactions: Transaction[];
+  currency: '$' | 'USD';
 }
 
-export function PocketCalendarView({ transactions }: PocketCalendarViewProps) {
+export function PocketCalendarView({ transactions, currency }: PocketCalendarViewProps) {
   const [date, setDate] = React.useState<Date | undefined>(new Date())
 
   const transactionDates = transactions.map(t => new Date(t.date))
@@ -62,7 +63,7 @@ export function PocketCalendarView({ transactions }: PocketCalendarViewProps) {
                   </div>
                   <div className="text-right">
                     <p className={`font-semibold ${t.type === 'deposit' ? 'text-primary' : 'text-destructive'}`}>
-                      {t.type === 'deposit' ? '+' : '-'} ${t.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
+                      {t.type === 'deposit' ? '+' : '-'} {currency}{t.amount.toLocaleString('en-US', { minimumFractionDigits: 2 })}
                     </p>
                     <Badge variant={t.type === 'deposit' ? 'default' : 'destructive'}>
                       {t.type}

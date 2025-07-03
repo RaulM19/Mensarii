@@ -13,5 +13,6 @@ export type Pocket = {
   id: string;
   name: string;
   icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+  currency: '$' | 'USD';
   transactions: Transaction[];
 };

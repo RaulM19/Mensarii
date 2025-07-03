@@ -9,7 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 
 interface PocketsContextType {
   pockets: Pocket[];
-  addPocket: (name: string, initialBalance: number) => void;
+  addPocket: (name: string, initialBalance: number, currency: '$' | 'USD') => void;
   addTransaction: (pocketId: string, transaction: Omit<Transaction, 'id' | 'date'>) => void;
   deletePocket: (pocketId: string) => void;
   getPocketById: (pocketId: string) => Pocket | undefined;
@@ -22,6 +22,7 @@ const initialPockets: Pocket[] = [
     id: '1',
     name: 'Vacation Fund',
     icon: Gift,
+    currency: '$',
     transactions: [
       { id: 't1', type: 'deposit', amount: 1500, description: 'Initial deposit', date: '2024-06-15T10:00:00.000Z' },
       { id: 't2', type: 'deposit', amount: 200, description: 'Paycheck savings', date: '2024-06-30T10:00:00.000Z' },
@@ -32,6 +33,7 @@ const initialPockets: Pocket[] = [
     id: '2',
     name: 'New Car',
     icon: Car,
+    currency: '$',
     transactions: [
        { id: 't4', type: 'deposit', amount: 5000, description: 'Initial deposit', date: '2024-05-16T10:00:00.000Z' },
        { id: 't5', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2024-06-15T10:00:00.000Z' },
@@ -42,6 +44,7 @@ const initialPockets: Pocket[] = [
     id: '3',
     name: 'Emergency Fund',
     icon: PiggyBank,
+    currency: '$',
     transactions: [
       { id: 't7', type: 'deposit', amount: 2000, description: 'Initial deposit', date: '2024-04-16T10:00:00.000Z' },
     ],
@@ -50,6 +53,7 @@ const initialPockets: Pocket[] = [
     id: '4',
     name: 'Home Reno',
     icon: Home,
+    currency: 'USD',
     transactions: [
        { id: 't8', type: 'deposit', amount: 750, description: 'Side hustle income', date: '2024-06-25T10:00:00.000Z' },
     ],
@@ -62,11 +66,12 @@ export const PocketsProvider = ({ children }: { children: ReactNode }) => {
   const [pockets, setPockets] = useState<Pocket[]>(initialPockets);
   const { toast } = useToast()
 
-  const addPocket = (name: string, initialBalance: number) => {
+  const addPocket = (name: string, initialBalance: number, currency: '$' | 'USD') => {
     const newPocket: Pocket = {
       id: uuidv4(),
       name,
       icon: icons[pockets.length % icons.length],
+      currency,
       transactions: [],
     };
     if (initialBalance > 0) {
@@ -92,15 +97,20 @@ export const PocketsProvider = ({ children }: { children: ReactNode }) => {
       date: new Date().toISOString(),
     };
     
+    const pocket = pockets.find(p => p.id === pocketId);
+
     setPockets(pockets.map(p => 
       p.id === pocketId 
         ? { ...p, transactions: [...p.transactions, newTransaction] }
         : p
     ));
-    toast({
-      title: "Transaction Added",
-      description: `A ${transaction.type} of $${transaction.amount.toFixed(2)} was added.`,
-    })
+    
+    if (pocket) {
+        toast({
+        title: "Transaction Added",
+        description: `A ${transaction.type} of ${pocket.currency}${transaction.amount.toFixed(2)} was added.`,
+        })
+    }
   };
 
   const deletePocket = (pocketId: string) => {

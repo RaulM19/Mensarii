@@ -15,10 +15,11 @@ import {
 import type { Transaction } from "@/lib/types"
 
 interface PocketBalanceChartProps {
-  transactions: Transaction[]
+  transactions: Transaction[];
+  currency: '$' | 'USD';
 }
 
-export function PocketBalanceChart({ transactions }: PocketBalanceChartProps) {
+export function PocketBalanceChart({ transactions, currency }: PocketBalanceChartProps) {
   const chartData = transactions
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .reduce((acc, transaction) => {
@@ -64,7 +65,7 @@ export function PocketBalanceChart({ transactions }: PocketBalanceChartProps) {
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
-                tickFormatter={(value) => `$${value}`}
+                tickFormatter={(value) => `${currency}${value}`}
               />
               <Tooltip cursor={false} content={<ChartTooltipContent indicator="dot" />} />
               <Area
