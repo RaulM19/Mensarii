@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowDown, ArrowUp } from "lucide-react"
 
-import { usePockets } from "@/contexts/pockets-context"
+import { useArcas } from "@/contexts/pockets-context"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -37,12 +37,12 @@ const formSchema = z.object({
 type TransactionDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
-  pocketId: string
+  arcaId: string
   initialType?: "deposit" | "withdrawal"
 }
 
-export function TransactionDialog({ open, onOpenChange, pocketId, initialType = 'deposit' }: TransactionDialogProps) {
-  const { addTransaction } = usePockets()
+export function TransactionDialog({ open, onOpenChange, arcaId, initialType = 'deposit' }: TransactionDialogProps) {
+  const { addTransaction } = useArcas()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -62,7 +62,7 @@ export function TransactionDialog({ open, onOpenChange, pocketId, initialType = 
 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    addTransaction(pocketId, values)
+    addTransaction(arcaId, values)
     form.reset()
     onOpenChange(false)
   }
@@ -73,7 +73,7 @@ export function TransactionDialog({ open, onOpenChange, pocketId, initialType = 
         <DialogHeader>
           <DialogTitle>New Transaction</DialogTitle>
           <DialogDescription>
-            Add a new deposit or withdrawal to your pocket.
+            Add a new deposit or withdrawal to your arca.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>

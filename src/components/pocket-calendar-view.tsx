@@ -6,7 +6,7 @@ import { Calendar } from "@/components/ui/calendar"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import type { Transaction } from "@/lib/types"
 
-interface PocketCalendarViewProps {
+interface ArcaCalendarViewProps {
   transactions: Transaction[];
   currency: '$' | 'USD';
 }
@@ -30,7 +30,7 @@ const groupTransactionsByDay = (transactions: Transaction[]) => {
   return grouped;
 };
 
-export function PocketCalendarView({ transactions, currency }: PocketCalendarViewProps) {
+export function ArcaCalendarView({ transactions, currency }: ArcaCalendarViewProps) {
   const transactionsByDay = React.useMemo(() => groupTransactionsByDay(transactions), [transactions]);
 
   const DayContent = ({ date }: { date: Date }) => {

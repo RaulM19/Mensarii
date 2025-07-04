@@ -3,7 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Car, Gift, Home, PiggyBank, Plane, type LucideIcon } from 'lucide-react';
-import type { Pocket, Transaction } from '@/lib/types';
+import type { Arca, Transaction } from '@/lib/types';
 import { useToast } from "@/hooks/use-toast";
 
 export const iconMap: { [key: string]: LucideIcon } = {
@@ -14,17 +14,17 @@ export const iconMap: { [key: string]: LucideIcon } = {
   plane: Plane,
 };
 
-interface PocketsContextType {
-  pockets: Pocket[];
-  addPocket: (name: string, initialBalance: number, currency: '$' | 'USD', icon: string) => void;
-  addTransaction: (pocketId: string, transaction: Omit<Transaction, 'id' | 'date'>) => void;
-  deletePocket: (pocketId: string) => void;
-  getPocketById: (pocketId: string) => Pocket | undefined;
+interface ArcasContextType {
+  arcas: Arca[];
+  addArca: (name: string, initialBalance: number, currency: '$' | 'USD', icon: string) => void;
+  addTransaction: (arcaId: string, transaction: Omit<Transaction, 'id' | 'date'>) => void;
+  deleteArca: (arcaId: string) => void;
+  getArcaById: (arcaId: string) => Arca | undefined;
 }
 
-const PocketsContext = createContext<PocketsContextType | undefined>(undefined);
+const ArcasContext = createContext<ArcasContextType | undefined>(undefined);
 
-const initialPockets: Pocket[] = [
+const initialArcas: Arca[] = [
   {
     id: '1',
     name: 'Vacation Fund',
@@ -67,34 +67,34 @@ const initialPockets: Pocket[] = [
   },
 ];
 
-const LOCAL_STORAGE_KEY = 'pocketBalance.pockets';
+const LOCAL_STORAGE_KEY = 'mensarii.arcas';
 
-export const PocketsProvider = ({ children }: { children: ReactNode }) => {
-  const [pockets, setPockets] = useState<Pocket[]>([]);
+export const ArcasProvider = ({ children }: { children: ReactNode }) => {
+  const [arcas, setArcas] = useState<Arca[]>([]);
   const { toast } = useToast()
 
   useEffect(() => {
     try {
-      const savedPockets = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (savedPockets) {
-        setPockets(JSON.parse(savedPockets));
+      const savedArcas = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (savedArcas) {
+        setArcas(JSON.parse(savedArcas));
       } else {
-        setPockets(initialPockets);
+        setArcas(initialArcas);
       }
     } catch (error) {
-      console.error("Failed to load pockets from localStorage", error);
-      setPockets(initialPockets);
+      console.error("Failed to load arcas from localStorage", error);
+      setArcas(initialArcas);
     }
   }, []);
 
   useEffect(() => {
-    if (pockets.length > 0) {
-      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pockets));
+    if (arcas.length > 0) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(arcas));
     }
-  }, [pockets]);
+  }, [arcas]);
 
-  const addPocket = (name: string, initialBalance: number, currency: '$' | 'USD', icon: string) => {
-    const newPocket: Pocket = {
+  const addArca = (name: string, initialBalance: number, currency: '$' | 'USD', icon: string) => {
+    const newArca: Arca = {
       id: uuidv4(),
       name,
       icon,
@@ -102,7 +102,7 @@ export const PocketsProvider = ({ children }: { children: ReactNode }) => {
       transactions: [],
     };
     if (initialBalance > 0) {
-      newPocket.transactions.push({
+      newArca.transactions.push({
         id: uuidv4(),
         type: 'deposit',
         amount: initialBalance,
@@ -110,63 +110,63 @@ export const PocketsProvider = ({ children }: { children: ReactNode }) => {
         date: new Date().toISOString(),
       });
     }
-    setPockets([...pockets, newPocket]);
+    setArcas([...arcas, newArca]);
     toast({
-      title: "Pocket Created!",
-      description: `Your new pocket "${name}" is ready.`,
+      title: "Arca Created!",
+      description: `Your new arca "${name}" is ready.`,
     })
   };
 
-  const addTransaction = (pocketId: string, transaction: Omit<Transaction, 'id' | 'date'>) => {
+  const addTransaction = (arcaId: string, transaction: Omit<Transaction, 'id' | 'date'>) => {
     const newTransaction: Transaction = {
       ...transaction,
       id: uuidv4(),
       date: new Date().toISOString(),
     };
     
-    const pocket = pockets.find(p => p.id === pocketId);
+    const arca = arcas.find(p => p.id === arcaId);
 
-    setPockets(pockets.map(p => 
-      p.id === pocketId 
+    setArcas(arcas.map(p => 
+      p.id === arcaId 
         ? { ...p, transactions: [...p.transactions, newTransaction] }
         : p
     ));
     
-    if (pocket) {
+    if (arca) {
         toast({
         title: "Transaction Added",
-        description: `A ${transaction.type} of ${pocket.currency}${transaction.amount.toLocaleString('en-US', { maximumFractionDigits: 2 })} was added.`,
+        description: `A ${transaction.type} of ${arca.currency}${transaction.amount.toLocaleString('en-US', { maximumFractionDigits: 2 })} was added.`,
         })
     }
   };
 
-  const deletePocket = (pocketId: string) => {
-    const pocket = pockets.find(p => p.id === pocketId);
-    if (pocket) {
-      setPockets(pockets.filter(p => p.id !== pocketId));
+  const deleteArca = (arcaId: string) => {
+    const arca = arcas.find(p => p.id === arcaId);
+    if (arca) {
+      setArcas(arcas.filter(p => p.id !== arcaId));
        toast({
-        title: "Pocket Deleted",
-        description: `The "${pocket.name}" pocket has been successfully deleted.`,
+        title: "Arca Deleted",
+        description: `The "${arca.name}" arca has been successfully deleted.`,
         variant: "destructive"
       })
     }
   };
 
-  const getPocketById = (pocketId: string) => {
-    return pockets.find(p => p.id === pocketId);
+  const getArcaById = (arcaId: string) => {
+    return arcas.find(p => p.id === arcaId);
   };
 
   return (
-    <PocketsContext.Provider value={{ pockets, addPocket, addTransaction, deletePocket, getPocketById }}>
+    <ArcasContext.Provider value={{ arcas, addArca, addTransaction, deleteArca, getArcaById }}>
       {children}
-    </PocketsContext.Provider>
+    </ArcasContext.Provider>
   );
 };
 
-export const usePockets = () => {
-  const context = useContext(PocketsContext);
+export const useArcas = () => {
+  const context = useContext(ArcasContext);
   if (context === undefined) {
-    throw new Error('usePockets must be used within a PocketsProvider');
+    throw new Error('useArcas must be used within an ArcasProvider');
   }
   return context;
 };

@@ -15,12 +15,12 @@ import {
 } from "@/components/ui/chart"
 import type { Transaction } from "@/lib/types"
 
-interface PocketBalanceChartProps {
+interface ArcaBalanceChartProps {
   transactions: Transaction[];
   currency: '$' | 'USD';
 }
 
-export function PocketBalanceChart({ transactions, currency }: PocketBalanceChartProps) {
+export function ArcaBalanceChart({ transactions, currency }: ArcaBalanceChartProps) {
   const chartData = transactions
     .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
     .reduce((acc, transaction) => {
@@ -41,7 +41,7 @@ export function PocketBalanceChart({ transactions, currency }: PocketBalanceChar
       <CardHeader>
         <CardTitle>Balance Over Time</CardTitle>
         <CardDescription>
-          A visual representation of your pocket's balance history.
+          A visual representation of your arca's balance history.
         </CardDescription>
       </CardHeader>
       <CardContent>

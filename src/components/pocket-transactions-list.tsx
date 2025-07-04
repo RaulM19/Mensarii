@@ -13,12 +13,12 @@ import { Badge } from "@/components/ui/badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import type { Transaction } from "@/lib/types"
 
-interface PocketTransactionsListProps {
+interface ArcaTransactionsListProps {
   transactions: Transaction[];
   currency: '$' | 'USD';
 }
 
-export function PocketTransactionsList({ transactions, currency }: PocketTransactionsListProps) {
+export function ArcaTransactionsList({ transactions, currency }: ArcaTransactionsListProps) {
   const sortedTransactions = [...transactions].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
 
   const formatCurrency = (amount: number) => {

@@ -7,9 +7,9 @@ const withPWA = withPWAInit({
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
   manifest: {
-    name: 'PocketBalance',
-    short_name: 'PocketBalance',
-    description: 'Manage your savings pockets with ease.',
+    name: 'Mensarii',
+    short_name: 'Mensarii',
+    description: 'Manage your savings arcas with ease.',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',

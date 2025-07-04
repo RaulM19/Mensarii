@@ -4,13 +4,13 @@ import * as React from 'react'
 import { Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
 
-import { usePockets } from '@/contexts/pockets-context'
+import { useArcas } from '@/contexts/pockets-context'
 import { Button } from '@/components/ui/button'
-import { PocketCard } from '@/components/pocket-card'
-import { CreatePocketDialog } from '@/components/create-pocket-dialog'
+import { ArcaCard } from '@/components/pocket-card'
+import { CreateArcaDialog } from '@/components/create-pocket-dialog'
 
 export default function Home() {
-  const { pockets } = usePockets()
+  const { arcas } = useArcas()
   const [isCreateDialogOpen, setCreateDialogOpen] = React.useState(false)
   const { theme, setTheme } = useTheme()
 
@@ -27,36 +27,36 @@ export default function Home() {
               className="text-2xl font-bold text-primary cursor-pointer" 
               onClick={toggleTheme}
             >
-              PocketBalance
+              Mensarii
             </h1>
             <Button onClick={() => setCreateDialogOpen(true)}>
               <Plus className="mr-2 h-4 w-4" />
-              Create Pocket
+              Create Arca
             </Button>
           </div>
         </div>
       </header>
 
       <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
-        {pockets.length > 0 ? (
+        {arcas.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {pockets.map((pocket) => (
-              <PocketCard key={pocket.id} pocket={pocket} />
+            {arcas.map((arca) => (
+              <ArcaCard key={arca.id} arca={arca} />
             ))}
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-center h-full min-h-[50vh] bg-card border border-dashed rounded-lg p-8">
-            <h2 className="text-xl font-semibold text-foreground">No Pockets Yet</h2>
-            <p className="mt-2 text-muted-foreground">Get started by creating your first savings pocket.</p>
+            <h2 className="text-xl font-semibold text-foreground">No Arcas Yet</h2>
+            <p className="mt-2 text-muted-foreground">Get started by creating your first savings arca.</p>
             <Button onClick={() => setCreateDialogOpen(true)} className="mt-4">
               <Plus className="mr-2 h-4 w-4" />
-              Create Pocket
+              Create Arca
             </Button>
           </div>
         )}
       </main>
 
-      <CreatePocketDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} />
+      <CreateArcaDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} />
     </>
   )
 }

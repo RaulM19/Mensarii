@@ -1,6 +1,3 @@
-import type { LucideProps } from "lucide-react";
-import type { ForwardRefExoticComponent, RefAttributes } from "react";
-
 export type Transaction = {
   id: string;
   type: "deposit" | "withdrawal";
@@ -9,7 +6,7 @@ export type Transaction = {
   date: string; // ISO string for date
 };
 
-export type Pocket = {
+export type Arca = {
   id: string;
   name: string;
   icon: string;

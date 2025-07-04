@@ -5,7 +5,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { usePockets, iconMap } from "@/contexts/pockets-context"
+import { useArcas, iconMap } from "@/contexts/pockets-context"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -36,7 +36,7 @@ import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
   name: z.string().min(2, {
-    message: "Pocket name must be at least 2 characters.",
+    message: "Arca name must be at least 2 characters.",
   }),
   initialBalance: z.coerce.number().min(0, {
     message: "Initial balance must be a positive number.",
@@ -45,13 +45,13 @@ const formSchema = z.object({
   icon: z.string().min(1, { message: "Please select an icon." }),
 })
 
-type CreatePocketDialogProps = {
+type CreateArcaDialogProps = {
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
-export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogProps) {
-  const { addPocket } = usePockets()
+export function CreateArcaDialog({ open, onOpenChange }: CreateArcaDialogProps) {
+  const { addArca } = useArcas()
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -63,7 +63,7 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    addPocket(values.name, values.initialBalance, values.currency, values.icon)
+    addArca(values.name, values.initialBalance, values.currency, values.icon)
     form.reset()
     onOpenChange(false)
   }
@@ -78,9 +78,9 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create a New Pocket</DialogTitle>
+          <DialogTitle>Create a New Arca</DialogTitle>
           <DialogDescription>
-            Give your new savings pocket a name and an optional starting balance.
+            Give your new savings arca a name and an optional starting balance.
           </DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -90,7 +90,7 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Pocket Name</FormLabel>
+                  <FormLabel>Arca Name</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., Emergency Fund" {...field} />
                   </FormControl>
@@ -171,7 +171,7 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
               />
             </div>
             <DialogFooter>
-              <Button type="submit">Create Pocket</Button>
+              <Button type="submit">Create Arca</Button>
             </DialogFooter>
           </form>
         </Form>

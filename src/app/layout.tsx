@@ -1,12 +1,12 @@
 import type { Metadata } from 'next';
 import './globals.css';
-import { PocketsProvider } from '@/contexts/pockets-context';
+import { ArcasProvider } from '@/contexts/pockets-context';
 import { Toaster } from "@/components/ui/toaster";
 import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
-  title: 'PocketBalance',
-  description: 'Manage your savings pockets with ease.',
+  title: 'Mensarii',
+  description: 'Manage your savings arcas with ease.',
 };
 
 export default function RootLayout({
@@ -35,14 +35,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <PocketsProvider>
+          <ArcasProvider>
             <div className="flex flex-col min-h-screen">
               {children}
               <footer className="text-center p-4 text-muted-foreground text-sm mt-auto">
                 <p>Ing. Maglione &copy; 2025</p>
               </footer>
             </div>
-          </PocketsProvider>
+          </ArcasProvider>
           <Toaster />
         </ThemeProvider>
       </body>

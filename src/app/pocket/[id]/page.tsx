@@ -3,35 +3,35 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
-import { usePockets, iconMap } from '@/contexts/pockets-context'
+import { useArcas, iconMap } from '@/contexts/pockets-context'
 import { ArrowLeft, Plus, Minus, PiggyBank } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { PocketTransactionsList } from '@/components/pocket-transactions-list'
-import { PocketBalanceChart } from '@/components/pocket-balance-chart'
-import { PocketCalendarView } from '@/components/pocket-calendar-view'
+import { ArcaTransactionsList } from '@/components/pocket-transactions-list'
+import { ArcaBalanceChart } from '@/components/pocket-balance-chart'
+import { ArcaCalendarView } from '@/components/pocket-calendar-view'
 import { TransactionDialog } from '@/components/transaction-dialog'
 
-export default function PocketDetailPage() {
+export default function ArcaDetailPage() {
   const params = useParams()
-  const { getPocketById } = usePockets()
-  const pocketId = typeof params.id === 'string' ? params.id : ''
-  const pocket = getPocketById(pocketId)
+  const { getArcaById } = useArcas()
+  const arcaId = typeof params.id === 'string' ? params.id : ''
+  const arca = getArcaById(arcaId)
 
   const [isTransactionOpen, setTransactionOpen] = React.useState(false)
   const [transactionType, setTransactionType] = React.useState<'deposit' | 'withdrawal'>('deposit')
 
-  if (!pocket) {
-    // Return a loading state or a fallback until the pocket is loaded from localstorage
+  if (!arca) {
+    // Return a loading state or a fallback until the arca is loaded from localstorage
     return (
         <div className="flex items-center justify-center h-screen">
-            <div className="text-lg text-muted-foreground">Loading Pocket...</div>
+            <div className="text-lg text-muted-foreground">Loading Arca...</div>
         </div>
     );
   }
 
-  const balance = pocket.transactions.reduce((acc, t) => {
+  const balance = arca.transactions.reduce((acc, t) => {
     return t.type === 'deposit' ? acc + t.amount : acc - t.amount
   }, 0)
 
@@ -42,7 +42,7 @@ export default function PocketDetailPage() {
     });
   };
 
-  const Icon = iconMap[pocket.icon] || PiggyBank
+  const Icon = iconMap[arca.icon] || PiggyBank
 
   const handleTransactionClick = (type: 'deposit' | 'withdrawal') => {
     setTransactionType(type)
@@ -56,7 +56,7 @@ export default function PocketDetailPage() {
           <Button asChild variant="ghost" className="mb-4">
             <Link href="/">
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Back to Pockets
+              Back to Arcas
             </Link>
           </Button>
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 p-6 bg-card border rounded-lg">
@@ -65,10 +65,10 @@ export default function PocketDetailPage() {
                 <Icon className="h-8 w-8 text-primary" />
               </div>
               <div>
-                <h1 className="text-3xl font-bold">{pocket.name}</h1>
+                <h1 className="text-3xl font-bold">{arca.name}</h1>
                 <p className="text-muted-foreground">Current Balance</p>
                 <p className="text-4xl font-bold text-primary">
-                  {pocket.currency}{formatCurrency(balance)}
+                  {arca.currency}{formatCurrency(balance)}
                 </p>
               </div>
             </div>
@@ -92,13 +92,13 @@ export default function PocketDetailPage() {
             <TabsTrigger value="calendar">Calendar</TabsTrigger>
           </TabsList>
           <TabsContent value="list" className="mt-4">
-            <PocketTransactionsList transactions={pocket.transactions} currency={pocket.currency} />
+            <ArcaTransactionsList transactions={arca.transactions} currency={arca.currency} />
           </TabsContent>
           <TabsContent value="chart" className="mt-4">
-              <PocketBalanceChart transactions={pocket.transactions} currency={pocket.currency} />
+              <ArcaBalanceChart transactions={arca.transactions} currency={arca.currency} />
           </TabsContent>
           <TabsContent value="calendar" className="mt-4">
-            <PocketCalendarView transactions={pocket.transactions} currency={pocket.currency} />
+            <ArcaCalendarView transactions={arca.transactions} currency={arca.currency} />
           </TabsContent>
         </Tabs>
       </main>
@@ -106,7 +106,7 @@ export default function PocketDetailPage() {
       <TransactionDialog
         open={isTransactionOpen}
         onOpenChange={setTransactionOpen}
-        pocketId={pocket.id}
+        arcaId={arca.id}
         initialType={transactionType}
       />
     </>
