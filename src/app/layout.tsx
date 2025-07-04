@@ -7,6 +7,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 export const metadata: Metadata = {
   title: 'Mensarii',
   description: 'Manage your savings arcas with ease.',
+  manifest: '/manifest.json',
 };
 
 export default function RootLayout({
@@ -17,10 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <meta name="theme-color" content="#007BFF" />
-        <link rel="icon" href="/icon.svg" type="image/svg+xml" />
+        <meta name="theme-color" content="#3B82F6" />
         <link rel="apple-touch-icon" href="/icon.svg" />
-        <link rel="manifest" href="/manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link
