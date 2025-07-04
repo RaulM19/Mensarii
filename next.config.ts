@@ -19,6 +19,7 @@ const withPWA = withPWAInit({
         src: '/icon.svg',
         sizes: 'any',
         type: 'image/svg+xml',
+        purpose: 'any maskable',
       },
     ],
   },
