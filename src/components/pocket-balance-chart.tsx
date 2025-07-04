@@ -1,5 +1,6 @@
 "use client"
 
+import { format } from "date-fns"
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import {
   Card,
@@ -29,7 +30,7 @@ export function PocketBalanceChart({ transactions, currency }: PocketBalanceChar
         : lastBalance - transaction.amount
 
       acc.push({
-        date: new Date(transaction.date).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        date: format(new Date(transaction.date), 'MMM d'),
         balance: newBalance,
       })
       return acc
