@@ -92,7 +92,7 @@ export function PocketCard({ pocket }: PocketCardProps) {
             <div className="flex justify-between items-start">
                 <div>
                     <div className="text-3xl font-bold text-primary">
-                    {pocket.currency}{balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {pocket.currency}{balance.toLocaleString('en-US', { maximumFractionDigits: 2 })}
                     </div>
                     <CardDescription className="text-xs text-muted-foreground mt-1">
                     {pocket.transactions.length} transactions

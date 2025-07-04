@@ -31,9 +31,9 @@ const initialPockets: Pocket[] = [
     icon: 'plane',
     currency: '$',
     transactions: [
-      { id: 't1', type: 'deposit', amount: 1500, description: 'Initial deposit', date: '2024-01-15T10:00:00.000Z' },
-      { id: 't2', type: 'deposit', amount: 200, description: 'Paycheck savings', date: '2024-02-15T10:00:00.000Z' },
-      { id: 't3', type: 'withdrawal', amount: 300, description: 'Booked flights', date: '2024-03-05T10:00:00.000Z' },
+      { id: 't1', type: 'deposit', amount: 1500, description: 'Initial deposit', date: '2025-01-15T10:00:00.000Z' },
+      { id: 't2', type: 'deposit', amount: 200, description: 'Paycheck savings', date: '2025-02-15T10:00:00.000Z' },
+      { id: 't3', type: 'withdrawal', amount: 300, description: 'Booked flights', date: '2025-03-05T10:00:00.000Z' },
     ],
   },
   {
@@ -42,9 +42,9 @@ const initialPockets: Pocket[] = [
     icon: 'car',
     currency: '$',
     transactions: [
-       { id: 't4', type: 'deposit', amount: 5000, description: 'Initial deposit', date: '2024-04-16T10:00:00.000Z' },
-       { id: 't5', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2024-05-15T10:00:00.000Z' },
-       { id: 't6', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2024-06-13T10:00:00.000Z' },
+       { id: 't4', type: 'deposit', amount: 5000, description: 'Initial deposit', date: '2025-04-16T10:00:00.000Z' },
+       { id: 't5', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2025-05-15T10:00:00.000Z' },
+       { id: 't6', type: 'deposit', amount: 500, description: 'Monthly savings', date: '2025-06-13T10:00:00.000Z' },
     ],
   },
   {
@@ -53,7 +53,7 @@ const initialPockets: Pocket[] = [
     icon: 'piggyBank',
     currency: '$',
     transactions: [
-      { id: 't7', type: 'deposit', amount: 2000, description: 'Initial deposit', date: '2024-04-16T10:00:00.000Z' },
+      { id: 't7', type: 'deposit', amount: 2000, description: 'Initial deposit', date: '2025-04-16T10:00:00.000Z' },
     ],
   },
   {
@@ -62,7 +62,7 @@ const initialPockets: Pocket[] = [
     icon: 'home',
     currency: 'USD',
     transactions: [
-       { id: 't8', type: 'deposit', amount: 750, description: 'Side hustle income', date: '2024-06-25T10:00:00.000Z' },
+       { id: 't8', type: 'deposit', amount: 750, description: 'Side hustle income', date: '2025-06-25T10:00:00.000Z' },
     ],
   },
 ];
@@ -113,7 +113,7 @@ export const PocketsProvider = ({ children }: { children: ReactNode }) => {
     if (pocket) {
         toast({
         title: "Transaction Added",
-        description: `A ${transaction.type} of ${pocket.currency}${transaction.amount.toFixed(2)} was added.`,
+        description: `A ${transaction.type} of ${pocket.currency}${transaction.amount.toLocaleString('en-US', { maximumFractionDigits: 2 })} was added.`,
         })
     }
   };

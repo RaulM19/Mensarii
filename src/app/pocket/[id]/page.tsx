@@ -56,7 +56,7 @@ export default function PocketDetailPage() {
                 <h1 className="text-3xl font-bold">{pocket.name}</h1>
                 <p className="text-muted-foreground">Current Balance</p>
                 <p className="text-4xl font-bold text-primary">
-                  {pocket.currency}{balance.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  {pocket.currency}{balance.toLocaleString('en-US', { maximumFractionDigits: 2 })}
                 </p>
               </div>
             </div>

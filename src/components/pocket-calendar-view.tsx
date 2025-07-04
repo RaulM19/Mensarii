@@ -44,12 +44,12 @@ export function PocketCalendarView({ transactions, currency }: PocketCalendarVie
           <div className="flex flex-col items-start mt-1 text-xs w-full space-y-1 overflow-hidden">
             {dailyData.deposits > 0 && (
               <div className="text-primary font-bold truncate w-full bg-primary/10 px-1.5 py-0.5 rounded-sm">
-                +{currency}{dailyData.deposits.toLocaleString('en-US', {maximumFractionDigits: 0})}
+                +{currency}{dailyData.deposits.toLocaleString('en-US', {maximumFractionDigits: 2})}
               </div>
             )}
              {dailyData.withdrawals > 0 && (
               <div className="text-destructive font-bold truncate w-full bg-destructive/10 px-1.5 py-0.5 rounded-sm">
-                -{currency}{dailyData.withdrawals.toLocaleString('en-US', {maximumFractionDigits: 0})}
+                -{currency}{dailyData.withdrawals.toLocaleString('en-US', {maximumFractionDigits: 2})}
               </div>
             )}
           </div>

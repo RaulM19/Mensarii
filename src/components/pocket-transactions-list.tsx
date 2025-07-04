@@ -41,7 +41,7 @@ export function PocketTransactionsList({ transactions, currency }: PocketTransac
               {sortedTransactions.map((t) => (
                 <TableRow key={t.id}>
                   <TableCell className="font-medium">
-                    {format(new Date(t.date), 'd/M/yyyy')}
+                    {format(new Date(t.date), 'dd/MM/yyyy')}
                   </TableCell>
                   <TableCell>{t.description}</TableCell>
                   <TableCell>
@@ -50,7 +50,7 @@ export function PocketTransactionsList({ transactions, currency }: PocketTransac
                     </Badge>
                   </TableCell>
                   <TableCell className={`text-right font-semibold ${t.type === 'deposit' ? 'text-primary' : 'text-destructive'}`}>
-                    {t.type === 'deposit' ? '+' : '-'} {currency}{t.amount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                    {t.type === 'deposit' ? '+' : '-'} {currency}{t.amount.toLocaleString('en-US', { maximumFractionDigits: 2 })}
                   </TableCell>
                 </TableRow>
               ))}
