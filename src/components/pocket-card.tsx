@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import { useRouter } from 'next/navigation'
-import { MoreVertical, Plus, Minus, Trash2, PiggyBank } from 'lucide-react'
+import { MoreVertical, Plus, Minus, Trash2, PiggyBank, ArrowUp, ArrowDown } from 'lucide-react'
 import {
   Card,
   CardContent,
@@ -14,6 +14,7 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import {
@@ -34,12 +35,12 @@ import { cn } from '@/lib/utils'
 
 interface ArcaCardProps {
   arca: Arca
-  isDragging?: boolean
-  isAnyArcaDragging?: boolean
+  isFirst: boolean
+  isLast: boolean
 }
 
-export function ArcaCard({ arca, isDragging = false, isAnyArcaDragging = false }: ArcaCardProps) {
-  const { deleteArca } = useArcas()
+export function ArcaCard({ arca, isFirst, isLast }: ArcaCardProps) {
+  const { deleteArca, moveArcaUp, moveArcaDown } = useArcas()
   const router = useRouter()
   const [isTransactionOpen, setTransactionOpen] = React.useState(false)
   const [transactionType, setTransactionType] = React.useState<'deposit' | 'withdrawal'>('deposit')
@@ -67,12 +68,7 @@ export function ArcaCard({ arca, isDragging = false, isAnyArcaDragging = false }
   }
   
   const handleCardClick = (e: React.MouseEvent) => {
-    if (isAnyArcaDragging) {
-      e.preventDefault();
-      return;
-    }
-    // Prevent navigation if the dropdown menu trigger or its content was clicked.
-    if ((e.target as HTMLElement).closest('[data-radix-collection-item]')) {
+    if ((e.target as HTMLElement).closest('button, [role="menuitem"]')) {
       return;
     }
     router.push(`/pocket/${arca.id}`);
@@ -86,8 +82,7 @@ export function ArcaCard({ arca, isDragging = false, isAnyArcaDragging = false }
         onClick={handleCardClick}
         className={cn(
         "flex flex-col h-full group transition-all duration-300 cursor-pointer",
-        !isDragging && "hover:shadow-lg hover:-translate-y-1",
-        isDragging && "shadow-2xl"
+        "hover:shadow-lg hover:-translate-y-1"
       )}>
         <CardHeader className="flex flex-row items-center justify-between p-6 pb-2">
             <div className="flex-1 min-w-0">
@@ -109,6 +104,16 @@ export function ArcaCard({ arca, isDragging = false, isAnyArcaDragging = false }
                         <Minus className="mr-2 h-4 w-4" />
                         <span>Withdraw Funds</span>
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={() => moveArcaUp(arca.id)} disabled={isFirst}>
+                      <ArrowUp className="mr-2 h-4 w-4" />
+                      <span>Move Up</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => moveArcaDown(arca.id)} disabled={isLast}>
+                      <ArrowDown className="mr-2 h-4 w-4" />
+                      <span>Move Down</span>
+                    </DropdownMenuItem>
+                    <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={() => setDeleteDialogOpen(true)} className="text-destructive focus:text-destructive focus:bg-destructive/10">
                         <Trash2 className="mr-2 h-4 w-4" />
                         <span>Delete Arca</span>
