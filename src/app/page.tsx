@@ -26,7 +26,6 @@ export default function Home() {
             <h1 
               className="text-2xl font-bold text-primary cursor-pointer" 
               onClick={toggleTheme}
-              title="Toggle light/dark theme"
             >
               PocketBalance
             </h1>
