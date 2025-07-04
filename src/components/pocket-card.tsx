@@ -2,7 +2,7 @@
 
 import * as React from 'react'
 import Link from 'next/link'
-import { MoreVertical, Plus, Minus, Trash2 } from 'lucide-react'
+import { MoreVertical, Plus, Minus, Trash2, PiggyBank } from 'lucide-react'
 import {
   Card,
   CardContent,
@@ -28,7 +28,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Button } from "@/components/ui/button"
 import { TransactionDialog } from '@/components/transaction-dialog'
-import { usePockets } from '@/contexts/pockets-context'
+import { usePockets, iconMap } from '@/contexts/pockets-context'
 import type { Pocket } from '@/lib/types'
 
 interface PocketCardProps {
@@ -55,7 +55,7 @@ export function PocketCard({ pocket }: PocketCardProps) {
     setDeleteDialogOpen(false)
   }
 
-  const Icon = pocket.icon
+  const Icon = iconMap[pocket.icon] || PiggyBank
 
   return (
     <>

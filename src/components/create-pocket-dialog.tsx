@@ -5,7 +5,7 @@ import { z } from "zod"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 
-import { usePockets } from "@/contexts/pockets-context"
+import { usePockets, iconMap } from "@/contexts/pockets-context"
 import { Button } from "@/components/ui/button"
 import {
   Dialog,
@@ -24,6 +24,7 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import {
   Select,
   SelectContent,
@@ -31,6 +32,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 
 const formSchema = z.object({
   name: z.string().min(2, {
@@ -40,6 +42,7 @@ const formSchema = z.object({
     message: "Initial balance must be a positive number.",
   }),
   currency: z.enum(['$', 'USD']),
+  icon: z.string().min(1, { message: "Please select an icon." }),
 })
 
 type CreatePocketDialogProps = {
@@ -55,11 +58,12 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
       name: "",
       initialBalance: 0,
       currency: "$",
+      icon: "piggyBank",
     },
   })
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    addPocket(values.name, values.initialBalance, values.currency)
+    addPocket(values.name, values.initialBalance, values.currency, values.icon)
     form.reset()
     onOpenChange(false)
   }
@@ -89,6 +93,42 @@ export function CreatePocketDialog({ open, onOpenChange }: CreatePocketDialogPro
                   <FormLabel>Pocket Name</FormLabel>
                   <FormControl>
                     <Input placeholder="e.g., Emergency Fund" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+             <FormField
+              control={form.control}
+              name="icon"
+              render={({ field }) => (
+                <FormItem className="space-y-2">
+                  <FormLabel>Icon</FormLabel>
+                  <FormControl>
+                    <RadioGroup
+                      onValueChange={field.onChange}
+                      value={field.value}
+                      className="flex flex-wrap gap-2"
+                    >
+                      {Object.entries(iconMap).map(([iconName, IconComponent]) => (
+                        <FormItem key={iconName} className="flex items-center space-x-3 space-y-0">
+                          <FormControl>
+                            <RadioGroupItem value={iconName} id={iconName} className="sr-only" />
+                          </FormControl>
+                          <FormLabel htmlFor={iconName} className="cursor-pointer">
+                            <div className={cn(
+                              "p-3 rounded-lg border-2",
+                              field.value === iconName ? 'border-primary bg-primary/10' : 'border-border'
+                            )}>
+                              <IconComponent className={cn(
+                                "h-6 w-6",
+                                field.value === iconName ? 'text-primary' : 'text-muted-foreground'
+                              )} />
+                            </div>
+                          </FormLabel>
+                        </FormItem>
+                      ))}
+                    </RadioGroup>
                   </FormControl>
                   <FormMessage />
                 </FormItem>

@@ -3,8 +3,8 @@
 import * as React from 'react'
 import Link from 'next/link'
 import { notFound, useParams } from 'next/navigation'
-import { usePockets } from '@/contexts/pockets-context'
-import { ArrowLeft, Plus, Minus } from 'lucide-react'
+import { usePockets, iconMap } from '@/contexts/pockets-context'
+import { ArrowLeft, Plus, Minus, PiggyBank } from 'lucide-react'
 
 import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -30,7 +30,7 @@ export default function PocketDetailPage() {
     return t.type === 'deposit' ? acc + t.amount : acc - t.amount
   }, 0)
 
-  const Icon = pocket.icon
+  const Icon = iconMap[pocket.icon] || PiggyBank
 
   const handleTransactionClick = (type: 'deposit' | 'withdrawal') => {
     setTransactionType(type)

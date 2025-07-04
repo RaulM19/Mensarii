@@ -12,7 +12,7 @@ export type Transaction = {
 export type Pocket = {
   id: string;
   name: string;
-  icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
+  icon: string;
   currency: '$' | 'USD';
   transactions: Transaction[];
 };
