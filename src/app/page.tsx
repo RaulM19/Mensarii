@@ -3,6 +3,7 @@
 import * as React from 'react'
 import { Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import { motion, AnimatePresence } from 'framer-motion'
 
 import { useArcas } from '@/contexts/pockets-context'
 import { Button } from '@/components/ui/button'
@@ -40,14 +41,24 @@ export default function Home() {
       <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
         {arcas.length > 0 ? (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {arcas.map((arca, index) => (
-              <ArcaCard
-                key={arca.id}
-                arca={arca}
-                isFirst={index === 0}
-                isLast={index === arcas.length - 1}
-              />
-            ))}
+            <AnimatePresence>
+              {arcas.map((arca, index) => (
+                <motion.div
+                  key={arca.id}
+                  layout
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.9 }}
+                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                >
+                  <ArcaCard
+                    arca={arca}
+                    isFirst={index === 0}
+                    isLast={index === arcas.length - 1}
+                  />
+                </motion.div>
+              ))}
+            </AnimatePresence>
           </div>
         ) : (
           <div className="flex flex-col items-center justify-center text-center h-full min-h-[50vh] bg-card border border-dashed rounded-lg p-8">
