@@ -1,7 +1,13 @@
 <svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="512" height="512" rx="128" fill="#18181B"/>
-<circle cx="256" cy="256" r="120" stroke="#A1A1AA" stroke-width="24"/>
-<path d="M256 160V352" stroke="#3B82F6" stroke-width="24" stroke-linecap="round"/>
-<path d="M192 192L256 160L320 192" stroke="#3B82F6" stroke-width="24" stroke-linecap="round"/>
-<path d="M192 320L256 352L320 320" stroke="#3B82F6" stroke-width="24" stroke-linecap="round"/>
+<circle cx="256" cy="256" r="256" fill="#18191C"/>
+<g fill="#3B82F6">
+    <path d="M160 412H352V382H160V412Z"/>
+    <path d="M180 382H332V162H180V382Z"/>
+    <path d="M160 162H352V132H160V162Z"/>
+</g>
+<path d="M210 372V172" stroke="#18191C" stroke-width="12"/>
+<path d="M256 372V172" stroke="#18191C" stroke-width="12"/>
+<path d="M302 372V172" stroke="#18191C" stroke-width="12"/>
+<path d="M160 132C120 132 120 92 160 92" stroke="#3B82F6" stroke-width="24" stroke-linecap="round"/>
+<path d="M352 132C392 132 392 92 352 92" stroke="#3B82F6" stroke-width="24" stroke-linecap="round"/>
 </svg>
