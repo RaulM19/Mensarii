@@ -106,7 +106,6 @@ export function ArcaCalendarView({ transactions, currency }: ArcaCalendarViewPro
     <Card>
       <CardHeader>
         <CardTitle>Transaction Calendar</CardTitle>
-        <CardDescription>A monthly overview of your transaction activity. Tap on a day to see details.</CardDescription>
       </CardHeader>
       <CardContent className="flex justify-center">
         <Calendar
