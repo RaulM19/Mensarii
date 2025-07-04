@@ -5,7 +5,6 @@ import { Area, AreaChart, CartesianGrid, XAxis, YAxis, Tooltip } from "recharts"
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card"
@@ -40,9 +39,6 @@ export function ArcaBalanceChart({ transactions, currency }: ArcaBalanceChartPro
     <Card>
       <CardHeader>
         <CardTitle>Balance Over Time</CardTitle>
-        <CardDescription>
-          A visual representation of your arca's balance history.
-        </CardDescription>
       </CardHeader>
       <CardContent>
         {chartData.length > 1 ? (
