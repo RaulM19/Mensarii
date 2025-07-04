@@ -7,35 +7,13 @@ const withPWA = withPWAInit({
   skipWaiting: true,
   runtimeCaching: [
     {
-      urlPattern: /^https:\/\/fonts\.(?:googleapis|gstatic)\.com\/.*/i,
+      urlPattern: /\.(?:css|js|woff2|png|jpg|jpeg|svg|ico|webp)$/i,
       handler: 'CacheFirst',
       options: {
-        cacheName: 'google-fonts',
+        cacheName: 'mensarii-static-assets',
         expiration: {
-          maxEntries: 4,
-          maxAgeSeconds: 365 * 24 * 60 * 60, // 365 days
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:css|js)$/i,
-      handler: 'StaleWhileRevalidate',
-      options: {
-        cacheName: 'static-assets',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
-        },
-      },
-    },
-    {
-      urlPattern: /\.(?:png|jpg|jpeg|svg|ico|webp)$/i,
-      handler: 'CacheFirst',
-      options: {
-        cacheName: 'image-assets',
-        expiration: {
-          maxEntries: 64,
-          maxAgeSeconds: 24 * 60 * 60, // 24 hours
+          maxEntries: 128,
+          maxAgeSeconds: 30 * 24 * 60 * 60, // 30 days
         },
       },
     },
