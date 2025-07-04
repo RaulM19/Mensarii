@@ -3,19 +3,76 @@
 import * as React from 'react'
 import { Plus } from 'lucide-react'
 import { useTheme } from 'next-themes'
+import {
+  DndContext,
+  closestCenter,
+  useSensor,
+  useSensors,
+  PointerSensor,
+  TouchSensor,
+  type DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  rectSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 import { useArcas } from '@/contexts/pockets-context'
 import { Button } from '@/components/ui/button'
 import { ArcaCard } from '@/components/pocket-card'
 import { CreateArcaDialog } from '@/components/create-pocket-dialog'
+import type { Arca } from '@/lib/types'
+
+function SortableArcaWrapper({ arca }: { arca: Arca }) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging
+  } = useSortable({ id: arca.id });
+
+  const style: React.CSSProperties = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 'auto',
+  };
+  
+  return (
+    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
+      <ArcaCard arca={arca} isDragging={isDragging} />
+    </div>
+  );
+}
 
 export default function Home() {
-  const { arcas } = useArcas()
+  const { arcas, reorderArcas } = useArcas()
   const [isCreateDialogOpen, setCreateDialogOpen] = React.useState(false)
   const { theme, setTheme } = useTheme()
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
+  }
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+        reorderArcas(active.id as string, over.id as string);
+    }
   }
 
   return (
@@ -39,11 +96,19 @@ export default function Home() {
 
       <main className="flex-grow container mx-auto p-4 sm:p-6 lg:p-8">
         {arcas.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {arcas.map((arca) => (
-              <ArcaCard key={arca.id} arca={arca} />
-            ))}
-          </div>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={arcas.map(a => a.id)} strategy={rectSortingStrategy}>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {arcas.map((arca) => (
+                  <SortableArcaWrapper key={arca.id} arca={arca} />
+                ))}
+              </div>
+            </SortableContext>
+          </DndContext>
         ) : (
           <div className="flex flex-col items-center justify-center text-center h-full min-h-[50vh] bg-card border border-dashed rounded-lg p-8">
             <h2 className="text-xl font-semibold text-foreground">No Arcas Yet</h2>

@@ -30,12 +30,14 @@ import { Button } from "@/components/ui/button"
 import { TransactionDialog } from '@/components/transaction-dialog'
 import { useArcas, iconMap } from '@/contexts/pockets-context'
 import type { Arca } from '@/lib/types'
+import { cn } from '@/lib/utils'
 
 interface ArcaCardProps {
   arca: Arca
+  isDragging?: boolean
 }
 
-export function ArcaCard({ arca }: ArcaCardProps) {
+export function ArcaCard({ arca, isDragging = false }: ArcaCardProps) {
   const { deleteArca } = useArcas()
   const [isTransactionOpen, setTransactionOpen] = React.useState(false)
   const [transactionType, setTransactionType] = React.useState<'deposit' | 'withdrawal'>('deposit')
@@ -66,7 +68,11 @@ export function ArcaCard({ arca }: ArcaCardProps) {
 
   return (
     <>
-      <Card className="flex flex-col h-full group transition-all duration-300 hover:shadow-lg hover:-translate-y-1">
+      <Card className={cn(
+        "flex flex-col h-full group transition-all duration-300",
+        !isDragging && "hover:shadow-lg hover:-translate-y-1",
+        isDragging && "shadow-2xl"
+      )}>
         <CardHeader className="flex flex-row items-center justify-between p-6 pb-2">
             <Link href={`/pocket/${arca.id}`} className="flex-1 min-w-0">
                 <CardTitle className="text-lg font-medium truncate">{arca.name}</CardTitle>

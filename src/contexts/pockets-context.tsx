@@ -3,6 +3,7 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Car, Gift, Home, PiggyBank, Plane, type LucideIcon } from 'lucide-react';
+import { arrayMove } from '@dnd-kit/sortable';
 import type { Arca, Transaction } from '@/lib/types';
 import { useToast } from "@/hooks/use-toast";
 
@@ -20,6 +21,7 @@ interface ArcasContextType {
   addTransaction: (arcaId: string, transaction: Omit<Transaction, 'id' | 'date'>) => void;
   deleteArca: (arcaId: string) => void;
   getArcaById: (arcaId: string) => Arca | undefined;
+  reorderArcas: (activeId: string, overId: string) => void;
 }
 
 const ArcasContext = createContext<ArcasContextType | undefined>(undefined);
@@ -159,8 +161,17 @@ export const ArcasProvider = ({ children }: { children: ReactNode }) => {
     return arcas.find(p => p.id === arcaId);
   };
 
+  const reorderArcas = (activeId: string, overId: string) => {
+    setArcas((items) => {
+      if (activeId === overId) return items;
+      const oldIndex = items.findIndex((item) => item.id === activeId);
+      const newIndex = items.findIndex((item) => item.id === overId);
+      return arrayMove(items, oldIndex, newIndex);
+    });
+  };
+
   return (
-    <ArcasContext.Provider value={{ arcas, addArca, addTransaction, deleteArca, getArcaById }}>
+    <ArcasContext.Provider value={{ arcas, addArca, addTransaction, deleteArca, getArcaById, reorderArcas }}>
       {children}
     </ArcasContext.Provider>
   );
