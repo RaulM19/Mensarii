@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { PocketsProvider } from '@/contexts/pockets-context';
-import { Toaster } from "@/components/ui/toaster"
+import { Toaster } from "@/components/ui/toaster";
+import { ThemeProvider } from "@/components/theme-provider";
 
 export const metadata: Metadata = {
   title: 'PocketBalance',
@@ -14,7 +15,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#007BFF" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
@@ -28,10 +29,22 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <PocketsProvider>
-          {children}
-        </PocketsProvider>
-        <Toaster />
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <PocketsProvider>
+            <div className="flex flex-col min-h-screen">
+              {children}
+              <footer className="text-center p-4 text-muted-foreground text-sm mt-auto">
+                <p>Ing. Maglione &copy; 2025</p>
+              </footer>
+            </div>
+          </PocketsProvider>
+          <Toaster />
+        </ThemeProvider>
       </body>
     </html>
   );

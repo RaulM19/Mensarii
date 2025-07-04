@@ -51,7 +51,7 @@ export default function PocketDetailPage() {
 
   return (
     <>
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-grow container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <header className="mb-8">
           <Button asChild variant="ghost" className="mb-4">
             <Link href="/">
@@ -85,25 +85,23 @@ export default function PocketDetailPage() {
           </div>
         </header>
 
-        <main>
-          <Tabs defaultValue="list" className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="list">Transactions</TabsTrigger>
-              <TabsTrigger value="chart">Chart</TabsTrigger>
-              <TabsTrigger value="calendar">Calendar</TabsTrigger>
-            </TabsList>
-            <TabsContent value="list" className="mt-4">
-              <PocketTransactionsList transactions={pocket.transactions} currency={pocket.currency} />
-            </TabsContent>
-            <TabsContent value="chart" className="mt-4">
-               <PocketBalanceChart transactions={pocket.transactions} currency={pocket.currency} />
-            </TabsContent>
-            <TabsContent value="calendar" className="mt-4">
-              <PocketCalendarView transactions={pocket.transactions} currency={pocket.currency} />
-            </TabsContent>
-          </Tabs>
-        </main>
-      </div>
+        <Tabs defaultValue="list" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="list">Transactions</TabsTrigger>
+            <TabsTrigger value="chart">Chart</TabsTrigger>
+            <TabsTrigger value="calendar">Calendar</TabsTrigger>
+          </TabsList>
+          <TabsContent value="list" className="mt-4">
+            <PocketTransactionsList transactions={pocket.transactions} currency={pocket.currency} />
+          </TabsContent>
+          <TabsContent value="chart" className="mt-4">
+              <PocketBalanceChart transactions={pocket.transactions} currency={pocket.currency} />
+          </TabsContent>
+          <TabsContent value="calendar" className="mt-4">
+            <PocketCalendarView transactions={pocket.transactions} currency={pocket.currency} />
+          </TabsContent>
+        </Tabs>
+      </main>
 
       <TransactionDialog
         open={isTransactionOpen}
