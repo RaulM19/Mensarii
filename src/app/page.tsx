@@ -47,7 +47,7 @@ export default function Home() {
         </main>
 
         <footer className="text-center p-4 text-muted-foreground text-sm">
-          <p>PocketBalance &copy; {new Date().getFullYear()}</p>
+          <p>Ing. Maglione &copy; 2025</p>
         </footer>
       </div>
       <CreatePocketDialog open={isCreateDialogOpen} onOpenChange={setCreateDialogOpen} />
