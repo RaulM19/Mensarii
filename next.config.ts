@@ -6,6 +6,22 @@ const withPWA = withPWAInit({
   register: true,
   skipWaiting: true,
   disable: process.env.NODE_ENV === 'development',
+  manifest: {
+    name: 'PocketBalance',
+    short_name: 'PocketBalance',
+    description: 'Manage your savings pockets with ease.',
+    start_url: '/',
+    display: 'standalone',
+    background_color: '#ffffff',
+    theme_color: '#007BFF',
+    icons: [
+      {
+        src: '/icon.svg',
+        sizes: 'any',
+        type: 'image/svg+xml',
+      },
+    ],
+  },
 });
 
 const nextConfig: NextConfig = {
