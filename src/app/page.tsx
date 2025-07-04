@@ -11,6 +11,7 @@ import {
   PointerSensor,
   TouchSensor,
   type DragEndEvent,
+  type DragStartEvent,
 } from '@dnd-kit/core';
 import {
   SortableContext,
@@ -25,7 +26,7 @@ import { ArcaCard } from '@/components/pocket-card'
 import { CreateArcaDialog } from '@/components/create-pocket-dialog'
 import type { Arca } from '@/lib/types'
 
-function SortableArcaWrapper({ arca }: { arca: Arca }) {
+function SortableArcaWrapper({ arca, isAnyArcaDragging }: { arca: Arca, isAnyArcaDragging: boolean }) {
   const {
     attributes,
     listeners,
@@ -43,7 +44,7 @@ function SortableArcaWrapper({ arca }: { arca: Arca }) {
   
   return (
     <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <ArcaCard arca={arca} isDragging={isDragging} />
+      <ArcaCard arca={arca} isDragging={isDragging} isAnyArcaDragging={isAnyArcaDragging} />
     </div>
   );
 }
@@ -52,6 +53,7 @@ export default function Home() {
   const { arcas, reorderArcas } = useArcas()
   const [isCreateDialogOpen, setCreateDialogOpen] = React.useState(false)
   const { theme, setTheme } = useTheme()
+  const [isAnyArcaDragging, setIsAnyArcaDragging] = React.useState(false);
 
   const toggleTheme = () => {
     setTheme(theme === 'dark' ? 'light' : 'dark')
@@ -71,12 +73,22 @@ export default function Home() {
     })
   );
 
+  function handleDragStart(_event: DragStartEvent) {
+    setIsAnyArcaDragging(true);
+  }
+
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
 
     if (over && active.id !== over.id) {
         reorderArcas(active.id as string, over.id as string);
     }
+    
+    // We use a timeout to prevent the click event from firing on the link,
+    // as the click event fires after onDragEnd.
+    setTimeout(() => {
+        setIsAnyArcaDragging(false);
+    }, 0);
   }
 
   return (
@@ -103,12 +115,13 @@ export default function Home() {
           <DndContext
             sensors={sensors}
             collisionDetection={closestCenter}
+            onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
           >
             <SortableContext items={arcas.map(a => a.id)} strategy={rectSortingStrategy}>
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 {arcas.map((arca) => (
-                  <SortableArcaWrapper key={arca.id} arca={arca} />
+                  <SortableArcaWrapper key={arca.id} arca={arca} isAnyArcaDragging={isAnyArcaDragging} />
                 ))}
               </div>
             </SortableContext>

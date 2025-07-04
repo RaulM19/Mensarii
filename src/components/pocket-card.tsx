@@ -35,9 +35,10 @@ import { cn } from '@/lib/utils'
 interface ArcaCardProps {
   arca: Arca
   isDragging?: boolean
+  isAnyArcaDragging?: boolean
 }
 
-export function ArcaCard({ arca, isDragging = false }: ArcaCardProps) {
+export function ArcaCard({ arca, isDragging = false, isAnyArcaDragging = false }: ArcaCardProps) {
   const { deleteArca } = useArcas()
   const [isTransactionOpen, setTransactionOpen] = React.useState(false)
   const [transactionType, setTransactionType] = React.useState<'deposit' | 'withdrawal'>('deposit')
@@ -63,6 +64,12 @@ export function ArcaCard({ arca, isDragging = false }: ArcaCardProps) {
     deleteArca(arca.id)
     setDeleteDialogOpen(false)
   }
+  
+  const handleLinkClick = (e: React.MouseEvent) => {
+    if (isAnyArcaDragging) {
+      e.preventDefault();
+    }
+  }
 
   const Icon = iconMap[arca.icon] || PiggyBank
 
@@ -74,7 +81,7 @@ export function ArcaCard({ arca, isDragging = false }: ArcaCardProps) {
         isDragging && "shadow-2xl"
       )}>
         <CardHeader className="flex flex-row items-center justify-between p-6 pb-2">
-            <Link href={`/pocket/${arca.id}`} className="flex-1 min-w-0">
+            <Link href={`/pocket/${arca.id}`} onClick={handleLinkClick} className="flex-1 min-w-0">
                 <CardTitle className="text-lg font-medium truncate">{arca.name}</CardTitle>
             </Link>
             <DropdownMenu>
@@ -100,7 +107,7 @@ export function ArcaCard({ arca, isDragging = false }: ArcaCardProps) {
                 </DropdownMenuContent>
             </DropdownMenu>
         </CardHeader>
-        <Link href={`/pocket/${arca.id}`} className="flex-grow">
+        <Link href={`/pocket/${arca.id}`} onClick={handleLinkClick} className="flex-grow">
           <CardContent>
             <div className="flex justify-between items-start">
                 <div>
