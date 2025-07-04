@@ -118,10 +118,13 @@ export const ArcasProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const addTransaction = (arcaId: string, transaction: Omit<Transaction, 'id' | 'date'>) => {
+    const finalDescription = transaction.description.trim() || (transaction.type === 'deposit' ? 'Deposit' : 'Withdrawal');
+
     const newTransaction: Transaction = {
       ...transaction,
       id: uuidv4(),
       date: new Date().toISOString(),
+      description: finalDescription,
     };
     
     const arca = arcas.find(p => p.id === arcaId);

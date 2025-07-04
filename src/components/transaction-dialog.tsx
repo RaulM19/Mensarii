@@ -31,7 +31,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 const formSchema = z.object({
   type: z.enum(["deposit", "withdrawal"]),
   amount: z.coerce.number().positive({ message: "Amount must be positive." }),
-  description: z.string().min(2, { message: "Description must be at least 2 characters." }),
+  description: z.string(),
 })
 
 type TransactionDialogProps = {
