@@ -1,13 +1,4 @@
-<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="256" height="256" rx="60" fill="#14161A"/>
-<g stroke="#FDF6E3" stroke-width="5" fill="none" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M168 73.0286C168 69.8693 165.91 67.2215 163.2 66.5212L162.24 66.2511C152.603 63.8504 142.163 62 128 62C113.837 62 103.397 63.8504 93.76 66.2511L92.8 66.5212C90.0901 67.2215 88 69.8693 88 73.0286V76H168V73.0286Z"/>
-  <path d="M176 198V194C176 190.686 173.314 188 170 188H86C82.6863 188 80 190.686 80 194V198H176Z"/>
-  <path d="M96 76 V 188"/>
-  <path d="M112 76 V 188"/>
-  <path d="M120 76 V 188"/>
-  <path d="M136 76 V 188"/>
-  <path d="M144 76 V 188"/>
-  <path d="M160 76 V 188"/>
-</g>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect width="512" height="512" rx="96" fill="#111827"/>
+<path d="M144 128H368V144H336V368H368V384H144V368H176V144H144V128Z" stroke="#EBE8E1" stroke-width="16" stroke-linejoin="round"/>
 </svg>
