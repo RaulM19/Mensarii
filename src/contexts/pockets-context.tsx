@@ -1,6 +1,6 @@
 "use client"
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Car, Gift, Home, PiggyBank, Plane, type LucideIcon } from 'lucide-react';
 import type { Pocket, Transaction } from '@/lib/types';
@@ -67,9 +67,31 @@ const initialPockets: Pocket[] = [
   },
 ];
 
+const LOCAL_STORAGE_KEY = 'pocketBalance.pockets';
+
 export const PocketsProvider = ({ children }: { children: ReactNode }) => {
-  const [pockets, setPockets] = useState<Pocket[]>(initialPockets);
+  const [pockets, setPockets] = useState<Pocket[]>([]);
   const { toast } = useToast()
+
+  useEffect(() => {
+    try {
+      const savedPockets = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (savedPockets) {
+        setPockets(JSON.parse(savedPockets));
+      } else {
+        setPockets(initialPockets);
+      }
+    } catch (error) {
+      console.error("Failed to load pockets from localStorage", error);
+      setPockets(initialPockets);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (pockets.length > 0) {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(pockets));
+    }
+  }, [pockets]);
 
   const addPocket = (name: string, initialBalance: number, currency: '$' | 'USD', icon: string) => {
     const newPocket: Pocket = {
@@ -119,12 +141,15 @@ export const PocketsProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const deletePocket = (pocketId: string) => {
-    setPockets(pockets.filter(p => p.id !== pocketId));
-     toast({
-      title: "Pocket Deleted",
-      description: `The pocket has been successfully deleted.`,
-      variant: "destructive"
-    })
+    const pocket = pockets.find(p => p.id === pocketId);
+    if (pocket) {
+      setPockets(pockets.filter(p => p.id !== pocketId));
+       toast({
+        title: "Pocket Deleted",
+        description: `The "${pocket.name}" pocket has been successfully deleted.`,
+        variant: "destructive"
+      })
+    }
   };
 
   const getPocketById = (pocketId: string) => {

@@ -45,6 +45,13 @@ export function PocketCard({ pocket }: PocketCardProps) {
     return t.type === 'deposit' ? acc + t.amount : acc - t.amount
   }, 0)
 
+  const formatCurrency = (amount: number) => {
+    return amount.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: amount % 1 ? 2 : 0,
+    });
+  };
+
   const handleTransactionClick = (type: 'deposit' | 'withdrawal') => {
     setTransactionType(type)
     setTransactionOpen(true)
@@ -92,7 +99,7 @@ export function PocketCard({ pocket }: PocketCardProps) {
             <div className="flex justify-between items-start">
                 <div>
                     <div className="text-3xl font-bold text-primary">
-                    {pocket.currency}{balance.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+                    {pocket.currency}{formatCurrency(balance)}
                     </div>
                     <CardDescription className="text-xs text-muted-foreground mt-1">
                     {pocket.transactions.length} transactions

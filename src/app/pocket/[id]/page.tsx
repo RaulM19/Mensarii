@@ -23,12 +23,24 @@ export default function PocketDetailPage() {
   const [transactionType, setTransactionType] = React.useState<'deposit' | 'withdrawal'>('deposit')
 
   if (!pocket) {
-    notFound()
+    // Return a loading state or a fallback until the pocket is loaded from localstorage
+    return (
+        <div className="flex items-center justify-center h-screen">
+            <div className="text-lg text-muted-foreground">Loading Pocket...</div>
+        </div>
+    );
   }
 
   const balance = pocket.transactions.reduce((acc, t) => {
     return t.type === 'deposit' ? acc + t.amount : acc - t.amount
   }, 0)
+
+  const formatCurrency = (amount: number) => {
+    return amount.toLocaleString('en-US', {
+      maximumFractionDigits: 2,
+      minimumFractionDigits: amount % 1 ? 2 : 0,
+    });
+  };
 
   const Icon = iconMap[pocket.icon] || PiggyBank
 
@@ -56,7 +68,7 @@ export default function PocketDetailPage() {
                 <h1 className="text-3xl font-bold">{pocket.name}</h1>
                 <p className="text-muted-foreground">Current Balance</p>
                 <p className="text-4xl font-bold text-primary">
-                  {pocket.currency}{balance.toLocaleString('en-US', { maximumFractionDigits: 2 })}
+                  {pocket.currency}{formatCurrency(balance)}
                 </p>
               </div>
             </div>
